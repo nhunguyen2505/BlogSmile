@@ -1,0 +1,119 @@
+<%- include("partials/header"); %>
+    <!-- NOTIFICATION PAGE  -->
+    <div class="container noti-page">
+        <div class="noti-top">
+            <a href="/" class="nav__link active">
+                <i class='bx bxs-home nav__icon' ></i>
+                <span class="nav__name">Trang chủ ></span>
+            </a>
+            <a href="/notification" class="nav__link active">
+                
+                <span class="nav__name">Danh sách thông báo </span>
+            </a>
+            
+        </div>
+        <div class="noti-center">
+            <form action="/notification" method="GET">
+                <div class="noti-filter">
+                    <!-- <input type="text" name="notiTitle" placeholder="Tìm theo tên thông báo">
+                    <input type="text" name="notiDetail"placeholder="Tìm kiếm trong nội dung thông báo"> -->
+                    <select name="faculty">
+                        <option class="selected" value="all">Chọn Khoa/Phòng</option>
+                        <% faculties.forEach(faculty => { %>
+                            <option value="<%=faculty._id  %>"><%=faculty.nameFaculty %></option>
+                        <% }) %> 
+
+                    </select>
+                    <!-- Từ<input type="date" name="from_date">
+                    Đến<input type="date" name="to_date"> -->
+                    <button type="submit" class="btn btn-outline-dark">Lọc thông báo</button>
+                </div>
+            </form>
+            <div class="page-list">
+                <% if(pages > 0) { %>
+                    <nav class="mx-auto">
+                        <ul class="pagination noti-pagination" >
+                            <!-- FIRST ITEM -->  
+                            <% if(current == 1) { %> 
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="/notification">Đầu</a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/notification">Đầu</a>
+                                </li>
+                            <% } %>
+              
+                            <!-- ITEMS  -->
+                            <% var i = (Number(current) > 3 ? Number(current) - 2 : 1) %> 
+                                <% if(i !== 1) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                            <% for(; i <= (Number(current) + 2) && i <= pages; i++) { %>
+                
+                                <% if(i == current) { %>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="">
+                                        <%= i %>
+                                        </a>
+                                    </li>
+                                <% } else { %>
+                                    <li class="page-item">
+                                        <a class="page-link" href="/notification?page=<%= i %>">
+                                        <%= i %>
+                                        </a>
+                                    </li>
+                                <% } %>
+                                <% if (i == Number(current) + 2 && i < pages) { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">...</a>
+                                    </li>
+                                <% } %>
+                            <% } %>
+              
+                            <!-- LAST ITEM -->
+                            <% if(current == pages) { %> 
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="">
+                                    Cuối cùng
+                                    </a>
+                                </li>
+                            <% } else { %>
+                                <li class="page-item">
+                                    <a class="page-link" href="/notification?page=<%= pages%>">
+                                    Cuối cùng
+                                    </a>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </nav>
+                <% } %>
+            </div>
+            <div class="noti-list noti-scroll">
+                <% notis.forEach(noti => { %>
+                    <div class="item">
+                        <a class="title" href="/detail?id=<%= noti._id %>"><%= noti.notiTitle %></a>
+                        <p>
+
+                        </p>
+                        <a href="/detail?id=<%= noti._id %>">Chi tiết thông báo</a>
+                        
+                        <p class="right-bottom">
+                            <%= noti.faculty.nameFaculty %>  ||   
+                            Ngày đăng: <%= noti.time.getDate()%> -  <%= noti.time.getMonth() + 1%> - <%= noti.time.getFullYear() %>
+                        </p>
+                    </div>
+                <% }) %> 
+                
+            
+            </div>
+        </div>
+    </div>
+    <!--END NOTIFICATION PAGE  --> 
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>

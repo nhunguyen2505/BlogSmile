@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ</title>
+    <!-- add icon link -->
+    <link rel = "icon" href = "images/logo_tdt.png" type = "image/x-icon">
+    <!--CDN -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- ===== BOX ICONS ===== -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body id="body-pd">
+    <!-- HEADER AND NAV TOGGLE-->
+    <header class="home-header" id="home-header">
+        <div class="home-header__toggle">
+            <i class='bx bx-menu' id="home-header-toggle"></i>
+        </div>
+        <div class="home-header__img">
+            <input type="hidden" id="userIdInProfile" value="<%=user._id %>">
+            <% if (user.img) { %>
+                <a href="/profile"><img src="<%= user.img %> " class="img_avatar_profile"></a>
+                
+            <% } else { %>
+                <a href="/profile"><img src="images/avatar_default.png" class="img_avatar_profile"></a>
+            <% } %> 
+            
+        </div>
+        <div class="home-header__name">
+            <a href="/profile"><%=user.name %> </a>
+        </div>
+    </header> 
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="/" class="nav__logo">
+                    <i class='bx bx-layer nav__logo-icon'></i>
+                    <span class="nav__logo-name">TDTU PORTAL</span>
+                </a>
+                <div class="nav__list">
+                    
+                    <a href="/" class="nav__link " >
+                        <i class='bx bxs-home nav__icon' ></i>
+                        <span class="nav__name">Trang chủ</span>
+                    </a>
+                    <% if (user.role == 2) { %>
+                        <a href="/add_user" class="nav__link " >
+                            <i class="fas fa-plus-circle nav__icon"></i>
+                            <span class="nav__name">Thêm tài khoản</span>
+                        </a>
+                    <% } %>
+                    <a href="/profile" class="nav__link ">
+                        <i class="fas fa-user nav__icon"></i>
+                        <span class="nav__name">Hồ sơ</span>
+                    </a>
+                    <a href="#" class="nav__link dropdown-btn">
+                        <i class='bx bxs-chevron-down nav__icon' ></i>
+                        <span class="nav__name">Thông báo</span>
+                    </a>
+                    <div class="dropdown-container">
+                        <a href="/department" class="nav__link ">
+                            <i class="fas fa-user-friends nav__icon"></i>
+                            <span class="nav__name">Phòng ban</span>
+                        </a>
+                        <a href="#" class="nav__link ">
+                            <i class="far fa-image nav__icon"></i>
+                            <span class="nav__name">Chủ đề</span>
+                        </a>
+                        <a href="/notification" class="nav__link ">
+                            <i class='bx bx-message-square-detail nav__icon' ></i>
+                            <span class="nav__name">Tất cả</span>
+                        </a>
+                    </div>
+                    
+                    <% if (user.role >= 1) { %>
+                        <a href="/dashboard" class="nav__link">
+                            <i class='bx bxs-arrow-from-left nav__icon'></i>
+                            <span class="nav__name">Quản lý</span>
+                        </a>
+                    <% } %>
+                    
+                </div>
+            </div>
+            <a href="/logout" class="nav__link">
+                <i class='bx bx-log-out nav__icon' ></i>
+                <span class="nav__name">Đăng xuất</span>
+            </a>
+        </nav>
+    </div>
+    <!-- END HEADER AND NAV TOGGLE-->
+     
+    <!-- PROFILE -->
+    <div class="container profile">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-4 col-xlg-3 col-md-5">
+                <div class="card-left">
+                    <% if (locals.another) { %>
+                        <div class="card-body profile-card">
+                            <input type="hidden" id="idUserMorePost" value="<%= another._id %>">
+                            <div class="mt-4">
+                                    <img src="<%= another.img %>" class="rounded-circle avatar-cicle" >
+                                    <% if (per == 1) { %>
+                                        <a id="change-profile-pic"><img class="icon_edit" src="images/pen.svg" width="20px"></a>
+                                    <% } %>
+                                    <h4 class="card-title mt-2"><%= another.name %> </h4>
+                                    <% if (another.role === "0") { %>
+                                        <h6 class="card-subtitle">Sinh viên</h6>
+                                    <% }else{ %>
+                                        <h6 class="card-subtitle">Phòng/Ban</h6>
+                                    <% } %> 
+                                    
+                                <div class="row justify-content-center">
+                                </div>
+                            </div>
+                        </div>
+                    <% }else{ %>
+                        <div class="card-body profile-card">
+                            <input type="hidden" id="idUserMorePost" value="<%= user._id %>">
+                            <div class="mt-4">
+                                <img src="<%= user.img %> " class="rounded-circle avatar-cicle" >
+                                
+                                    <a id="change-profile-pic"><img class="icon_edit" src="images/pen.svg" width="20px"></a>
+                                    <h4 class="card-title mt-2"><%= user.name %> </h4>
+                                    <% if (user.role === "0") { %>
+                                        <h6 class="card-subtitle">Sinh viên</h6>
+                                    <% }else{ %>
+                                        <h6 class="card-subtitle">Phòng/Ban</h6>
+                                    <% } %> 
+                                    
+                                <div class="row justify-content-center">
+                                </div>
+                            </div>
+                        </div>
+                    <% } %> 
+                </div>
+            </div>
+            <!-- Column -->
+            <!-- Column -->
+            <div class="col-lg-8 col-xlg-9 col-md-7">
+                <div class="card-right">
+                    <% if (per === 1) { %>
+                        <div class="card-body">
+                            <% if (user.role === "0") { %>
+                                <form method="POST" action="update_user" class="form-horizontal form-material mx-2">
+                                    <div class="form-group">
+                                        <% if (msgError.length > 0) { %>
+                                            <div class="alert alert-danger"><%= msgError %></div>
+                                        <% } %>
+                                        <% if (msgSuccess.length > 0) { %>
+                                            <div class="alert alert-success"><%= msgSuccess %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">Email</label>
+                                        <div class="col-md-12">
+                                            <input type="email" placeholder="<%= user.email %> " class="form-control ps-0 form-control-line"  id="example-email" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Họ và tên</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name="name" value="<%= user.name %>"  class="form-control ps-0 form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Lớp</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name="classcode" value="<%= user.classcode %>" class="form-control ps-0 form-control-line">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Khoa</label>
+                                        <div class="col-md-12">
+                                                <% if (user.activeProfile != 0) { %>
+                                                    <input type="hidden" name="faculty" value="<%= user.faculty._id %> ">
+                                                    <input type="text" value="<%= user.faculty.nameFaculty %> " class="form-control ps-0 form-control-line" readonly>
+                                                <% }else{%>
+                                                    <select name="faculty">
+                                                        <% faculties.forEach(faculty =>  { %>
+                                                            <option value="<%= faculty._id %> "><%= faculty.nameFaculty %></option>
+                                                        <% })%>
+                                                    </select>
+                                                <% } %> 
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 d-flex">
+                                            <button type="submit" class="btn btn-update mx-auto mx-md-0 text-white"
+                                            id= "btn-update">
+                                                Cập nhật hồ sơ
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% }else{ %>
+                                <form action="update_password" method="POST" class="form-reset">
+                                    <div class="form-group">
+                                        <% if (msgError.length > 0) { %>
+                                            <div class="alert alert-danger"><%= msgError %></div>
+                                        <% } %>
+                                        <% if (msgSuccess.length > 0) { %>
+                                            <div class="alert alert-success"><%= msgSuccess %></div>
+                                        <% } %>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">Username</label>
+                                        <div class="col-md-12">
+                                            <input type="text" placeholder="<%= user.username %> " class="form-control ps-0 form-control-line"  readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Tên Phòng/Ban</label>
+                                        <div class="col-md-12">
+                                            <input type="text" name="name" value="<%= user.name %>"  class="form-control ps-0 form-control-line" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-resetpass">
+                                        <div class="form-group">
+                                            <label class="col-md-12 mb-0">Mật khẩu</label>
+                                            <div class="col-md-12">
+                                                <input type="password" name="password" placeholder="Mật khẩu từ 6-32 ký tự"  class="form-control ps-0 form-control-line" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-12 mb-0">Nhập lại mật khẩu</label>
+                                            <div class="col-md-12">
+                                                <input type="password" name="repassword" placeholder="Nhập lại mật khẩu"  class="form-control ps-0 form-control-line" >
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="col-sm-12 d-flex">
+                                            <a class="btn btn-resetpass"
+                                                id= "btn-resetpass">
+                                                    Đổi mật khẩu
+                                            </a>
+                                            <a class="btn btn-resetpass "
+                                                id= "btn-cancel">
+                                                    Hủy
+                                            </a>
+                                        </div>
+                                    </div>
+                                </form>
+                            <% } %> 
+                        </div>
+                    <% } %>
+                    
+                </div>
+                <% if (locals.posts) { %>
+                    <% if (locals.another) { %>
+                        <% posts.forEach(post => { %>
+                            <div class="post" id="<%= post._id %>">
+                                <div class="post-top">
+                                    <img class="status-top-img" src="<%= another.img %> " alt="">
+                                    <a class="post-name"><%= another.name %> <br> 20 giờ</a>
+                                    <% if(user._id.toString() === post.user._id.toString()){ %>
+                                        <span class="btndropdown" ><img src="images/more.svg" class="post-option"></span>
+                                    <% } %> 
+                                    <div class="list-option">
+                                        <ul>
+                                            <li class="update-post" id="<%= post._id %>">
+                                                <span><img class="" src="images/pen.svg"></span>
+                                                <a>Chỉnh sửa</a>
+                                            </li>
+                                            <li class="delete-post" id="<%= post._id %>">
+                                                <span><img class="" src="images/trash.svg"></span>
+                                                <a>Xóa</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                
+                                </div>
+                                <div class="post-mid">
+                                    <div class="post-detail">
+                                        <% post.data.forEach(d => { %>
+                                            <% if (d.postType === "text") { %>
+                                                <p><%= d.postDetail %></p>
+                                            <% }else if (d.postType === "img"){ %>
+                                                <img src="<%= d.postDetail %>" >
+                                            <% }else{ %>
+                                                <iframe width="420" height="315"
+                                                    src="https://www.youtube.com/embed/<%=d.postDetail%>">
+                                                </iframe>
+                                            <% } %>
+                                        <% }) %> 
+                                    </div>
+                                    <div class="count-like">
+                                        <p><%= post.comments.length %> bình luận</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="post-bottom">
+                                    <div class="like-comment">
+                                        <ul>
+                                            <li class="like">
+                                                <img src="images/like.svg">
+                                                <a>Thích</a>
+                                            </li>
+                                            <li class="show-comment">
+                                                <img src="images/message.svg">
+                                                <a>Bình luận</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr>
+                                    <div class="list-comment">
+                                        <% post.comments.forEach( comment => { %>
+                                            <div class="comment" id="<%= comment._id %>">
+                                                <a href="/profile?query=<%= comment.userID %>"><img class="status-top-img" src="<%= comment.img %>"></a>
+                                                <div class="comment-detail">
+                                                    <a href="/profile?query=<%= comment.userID %>"><p class="name"><%= comment.username %></p></a>
+                                                    <p>
+                                                        <%= comment.commentDetail %> 
+                                                    </p>
+                                                    
+                                                </div>
+                                                <% if (comment.userID == user._id) { %>
+                                                    <a class="delete-comment"><span><img class="" src="images/trash.svg" width="24px"></span></a>
+                                                <% } %>
+                                            </div>
+                                        <% }) %> 
+                                        <hr class="hr-addcomment">
+                                        <div class="input-comment">
+                                            <img class="status-top-img" src="<%= user.img %>">
+                                            <input type="hidden" id="postID" value="<%= post._id %>">
+                                            <input type="hidden" id="userID" value="<%=user._id %>">
+                                            <% if (user.role > 0) { %>
+                                                <input type="hidden" id="optionComment" value="teacher">
+                                            <% } %>
+                                            <div class="status-top-text">
+                                                <input type="text" class="commentDetail"  placeholder="Nội dung bình luận">
+                                                <a class="btn btn-comment" ><img src="images/send.svg" width="24px"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %> 
+                    <% }else{ %>
+                        <% posts.forEach( post => { %>
+                            <div class="post" id="<%= post._id %>">
+                                <div class="post-top">
+                                    <a href="/profile?query=<%= post.user._id %>"><img class="status-top-img" src="<%= post.user.img %> " alt=""></a>
+                                    <a href="/profile?query=<%= post.user._id %>"class="post-name"><%= post.user.name %><br> 20 giờ</a>
+                                    <% if(user._id.toString() === post.user._id.toString()){ %>
+                                        <span class="btndropdown" ><img src="images/more.svg" class="post-option"></span>
+                                    <% } %> 
+                                    <div class="list-option">
+                                        <ul>
+                                            <li class="update-post" id="<%= post._id %>">
+                                                <span><img class="" src="images/pen.svg"></span>
+                                                <a>Chỉnh sửa</a>
+                                            </li>
+                                            <li class="delete-post" id="<%= post._id %>">
+                                                <span><img class="" src="images/trash.svg"></span>
+                                                <a>Xóa</a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="post-mid">
+                                    <div class="post-detail">
+                                        <% post.data.forEach(d => { %>
+                                            <% if (d.postType === "text") { %>
+                                                <p><%= d.postDetail %></p>
+                                            <% }else if (d.postType === "img"){ %>
+                                                <img src="<%= d.postDetail %>" >
+                                            <% }else{ %>
+                                                <iframe width="420" height="315"
+                                                src="https://www.youtube.com/embed/<%=d.postDetail%>">
+                                                </iframe>
+                                            <% } %>
+                                        <% }) %> 
+                                    </div>
+                                    <div class="count-like">
+                                        <p><%= post.comments.length %> bình luận</p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="post-bottom">
+                                    <div class="like-comment">
+                                        <ul>
+                                            <li class="like">
+                                                <img src="images/like.svg">
+                                                <a>Thích</a>
+                                            </li>
+                                            <li class="show-comment">
+                                                <img src="images/message.svg">
+                                                <a >Bình luận</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <hr>
+                                    <div class="list-comment">
+                                        <% post.comments.forEach( comment => { %>
+                                            <div class="comment" id="<%= comment._id %>">
+                                                <a href="/profile?query=<%= comment.userID %>"><img class="status-top-img" src="<%= comment.img %>"></a>
+                                                <div class="comment-detail">
+                                                    <a href="/profile?query=<%= comment.userID %>"><p class="name"><%= comment.username %></p></a>
+                                                    <p>
+                                                        <%= comment.commentDetail %> 
+                                                    </p>
+                                                    
+                                                </div>
+                                                <% if (comment.userID == user._id) { %>
+                                                    <a class="delete-comment"><span><img class="" src="images/trash.svg" width="24px"></span></a>
+                                                <% } %>
+                                            </div>
+                                        <% }) %> 
+                                    <hr class="hr-addcomment">
+                                    <div class="input-comment">
+                                        <img class="status-top-img" src="<%= user.img %>">
+                                        <input type="hidden" id="postID" value="<%= post._id %>">
+                                        <input type="hidden" id="userID" value="<%=user._id %>">
+                                        <% if (user.role > 0) { %>
+                                            <input type="hidden" id="optionComment" value="teacher">
+                                        <% } %>
+                                        <div class="status-top-text">
+                                            <input type="text" class="commentDetail"  placeholder="Nội dung bình luận">
+                                            <a class="btn btn-comment" ><img src="images/send.svg" width="24px"></a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <%}) %>
+                    <% } %>
+                <% } %>
+                <hr id="post_more">
+            </div>
+            <!-- Column -->
+           
+        </div>
+            
+    </div>
+    <!--END PROFILE -->
+
+    <div class="wrapper">
+        <!--MODAL UPLOAD IMAGES-->
+        <div id="profile_pic_modal" class="change_image_modal">
+            <div class="modal-top">
+                <p class="modal-title">Cập nhật ảnh đại diện</p>
+                <span><img src="images/close.svg" class="close"></span>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/update_avatar" enctype="multipart/form-data">
+                    <strong>Tải ảnh lên:</strong> <br><br>
+                    <input type="file" name="file_name" id="profile-pic"
+                    />
+                    <% if (user.role === "0") { %>
+                        <input type="hidden" name="action" value="student" id="action" />
+                    <% }else{ %>
+                        <input type="hidden" name="action" value="teacher" id="action" />
+                    <% } %> 
+                    <input type="hidden" name="image_name" value="" id="image_name" />
+                    <div>
+                        <img id='preview-profile-pic' alt="your image" />
+                    </div>
+                    <button type="submit" class="btn btn-update mx-auto mx-md-0 text-white">
+                        Lưu
+                    </button>
+                </form>
+            </div>
+           
+        </div>
+           
+        <!-- modal confirm delete-->
+        <div class="conform-delete">
+            <div class="modal-top">
+                <p class="modal-title">Thông báo</p>
+                <span><img src="images/close.svg" class="close"></span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="postID">
+                <h2>Bạn có chắc chắn muốn xóa ?</h2>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn btn-update mx-auto mx-md-0 text-white"
+                id="btn-accpect">
+                    Đồng ý
+                </button>
+            </div>
+        </div>
+        <!-- modal edit -->
+        <div class="edit-modal">
+            <form method="POST" action="update_post" class="form-createpost" 
+            enctype="multipart/form-data" id="form-updatepost">
+                <div class="modal-top">
+                    <p class="modal-title">Chỉnh sửa</p>
+                    <span><img src="images/close.svg" class="close"></span>
+                </div>
+                <div class="modal-mid">
+                    <img class="status-top-img" src="<%= user.img %> " alt="">
+                    <span><%= user.name %> </span><br>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <textarea class="form-control ps-0 form-control-line detail inputDetail" 
+                            rows="2" name="postDetail" id="input_post"
+                            placeholder="Bạn đang nghĩ gì?"></textarea>
+                        </div>
+                        <div id="preview-update"></div>
+
+                        <input type="hidden" id="type-upload-update"/>
+                        <input type="hidden" id="data-upload-update"/>
+                        <input type="hidden" id="postId-update"/>
+                        <input type="hidden" id="oldImg"/>
+                    </div>
+                </div>
+                <div class="modal-bottom">
+                    <div class="option">
+                        <ul>
+                            <input id="update_file" type="file" accept='image/*' name='uploadedImages' multiple/>
+                            <li id="update_img">
+                                <span><img src="/images/picture.svg"></span>
+                                <a>Ảnh/Video</a>
+                            </li>
+                            <li >
+                                <span><img src="/images/folder.svg"></span>
+                                <a>File</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-save" id="btn-updatepost" >Lưu</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>

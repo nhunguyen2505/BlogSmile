@@ -1,0 +1,21 @@
+<%- include("partials/header"); %>
+    
+    <div class="container page-detail">
+        
+            <h2 class="detail-title"><%= noti.notiTitle %></h2>
+            <div class="detail-center">
+                <div class="time">
+                    <%= noti.faculty.nameFaculty %>  ||   
+                    Ngày đăng: <%= noti.time.getDate()%> -  <%= noti.time.getMonth() + 1%> - <%= noti.time.getFullYear() %>
+                </div>
+                <div class="content-detail">
+                    <%= noti.notiDetail %>
+                </div>
+            </div>
+        
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>

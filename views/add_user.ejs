@@ -1,0 +1,70 @@
+
+    <%- include("partials/header"); %>
+
+    <div class="container profile">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-8 col-xlg-9 col-md-7">
+                <div class="form-group">
+                    <% if ( msg.length > 0) { %>
+                        <div class="alert alert-success"><%= msg %></div>
+                    <% } %>
+                </div>
+                <div class="card-right">
+                    <div class="card-body">
+                        <form action="/register_account" method="POST" class="form-horizontal form-material mx-2">
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0">Username</label>
+                                <div class="col-md-12 form-add">
+                                    <input type="text" name="username" placeholder="username" class="form-control ps-0 form-control-line">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0">Mật khẩu</label>
+                                <div class="col-md-12 form-add">
+                                    <input type="password" name="password" placeholder="Mật khẩu" class="form-control ps-0 form-control-line">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0">Tên tổ chức</label>
+                                <div class="col-md-12 ">
+                                    <input type="text" name="name" placeholder="Tên" class="form-control ps-0 form-control-line">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0">Quyền</label>
+                                <div class="col-md-12">
+                                    <% faculties.forEach(faculty =>  { %>
+                                        <div class="custom_checkbox">
+                                            <input type="checkbox" id="<%= faculty._id %>" name="faculty" value="<%= faculty._id %>">
+                                            <label for="<%= faculty._id %>"><%= faculty.nameFaculty %></label>
+                                        </div>
+                                    <% })%>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12 d-flex">
+                                    <button type="submit" class="btn btn-update mx-auto mx-md-0 text-white"
+                                    >
+                                        Tạo tài khoản
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <!-- Column -->
+           
+        </div>
+            
+    </div>
+    <!-- END HEADER AND NAV TOGGLE-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>

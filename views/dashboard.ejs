@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý </title>
+    <!-- add icon link -->
+    <link rel = "icon" href = "images/logo_tdt.png" type = "image/x-icon">
+    <!--CDN -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <!-- ===== BOX ICONS ===== -->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body id="body-pd">
+    <!-- HEADER AND NAV TOGGLE-->
+    <header class="home-header" id="home-header">
+        <div class="home-header__toggle">
+            <i class='bx bx-menu' id="home-header-toggle"></i>
+        </div>
+        <div class="home-header__img">
+            <% if (user.img) { %>
+                <a href="/profile"><img src="<%= user.img %> "></a>
+            <% } else { %>
+                <a href="/profile"><img src="images/avatar_default.png"></a>
+            <% } %> 
+            
+        </div>
+        <div class="home-header__name">
+            <a href="/profile"><%=user.name %> </a>
+        </div>
+    </header> 
+
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="/" class="nav__logo">
+                    <i class='bx bx-layer nav__logo-icon'></i>
+                    <span class="nav__logo-name">TDT PORTAL</span>
+                </a>
+                <div class="nav__list">
+                    
+                    <a href="/" class="nav__link " >
+                        <i class='bx bxs-home nav__icon' ></i>
+                        <span class="nav__name">Trang chủ</span>
+                    </a>
+                    <% if (user.role == 2) { %>
+                        <a href="/add_user" class="nav__link " >
+                            <i class="fas fa-plus-circle nav__icon"></i>
+                            <span class="nav__name">Thêm tài khoản</span>
+                        </a>
+                    <% } %>
+                    <a href="/profile" class="nav__link ">
+                        <i class="fas fa-user nav__icon"></i>
+                        <span class="nav__name">Hồ sơ</span>
+                    </a>
+                    <a href="#" class="nav__link dropdown-btn">
+                        <i class='bx bxs-chevron-down nav__icon' ></i>
+                        <span class="nav__name">Thông báo</span>
+                    </a>
+                    <div class="dropdown-container">
+                        <a href="/department" class="nav__link ">
+                            <i class="fas fa-user-friends nav__icon"></i>
+                            <span class="nav__name">Phòng ban</span>
+                        </a>
+                        <a href="#" class="nav__link ">
+                            <i class="far fa-image nav__icon"></i>
+                            <span class="nav__name">Chủ đề</span>
+                        </a>
+                        <a href="/notification" class="nav__link ">
+                            <i class='bx bx-message-square-detail nav__icon' ></i>
+                            <span class="nav__name">Tất cả</span>
+                        </a>
+                    </div>
+                    <% if (user.role >= 1) { %>
+                        <a href="/dashboard" class="nav__link">
+                            <i class='bx bxs-arrow-from-left nav__icon'></i>
+                            <span class="nav__name">Quản lý</span>
+                        </a>
+                    <% } %>
+                  
+                </div>
+            </div>
+            <a href="/logout" class="nav__link">
+                <i class='bx bx-log-out nav__icon' ></i>
+                <span class="nav__name">Đăng xuất</span>
+            </a>
+        </nav>
+    </div>
+    
+    <!-- END HEADER AND NAV TOGGLE-->
+
+    <div class="container dashboard">
+        <div class="row">
+            <!-- Column -->
+            <div class="col-lg-4 col-xlg-3 col-md-5">
+                <div class="card-left">
+                    <div class="form-group">
+                        <div class="col-sm-12 d-flex">
+                            <a class="btn btn-update mx-auto mx-md-0 text-white"
+                            id= "btn-createNoti">
+                                Tạo thông báo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <!-- Column -->
+            <div class="col-lg-8 col-xlg-9 col-md-7">
+                <div class="card-right">
+                        <% if (msgSuccess.length > 0) { %>
+                            <div class="form-group">
+                                <div class="alert alert-success"><%= msgSuccess %></div>
+                            </div>
+                        <% } %>
+                        <% if (msgError.length > 0) { %>
+                            <div class="form-group">
+                                <div class="alert alert-danger"><%= msgError %></div>
+                            </div>
+                        <% } %>
+                    <div class="card-body" id="form-createNoti">
+                        <form method="POST" action="/create_noti">
+                            <div class="form-group optionFaculty">
+                                <label class="col-md-12 mb-0">Chuyên mục</label>
+                                <div class="col-md-12">
+                                        <select name="faculty">
+                                            <% user.arrFaculty.forEach(faculty =>  { %>
+                                                <option value="<%= faculty._id %>"><%= faculty.nameFaculty %></option>
+                                            <% })%>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="example-email" class="col-md-12">Tiêu đề</label>
+                                <div class="col-md-12">
+                                    <textarea class="form-control ps-0 form-control-line detail inputDetail" 
+                                    rows="3" name="notiTitle" id="notiTitle"
+                                    placeholder="Tiêu đề thông báo"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-12 mb-0">Nội dung</label>
+                                <div class="col-md-12">
+                                    <textarea class="form-control ps-0 form-control-line detail inputDetail" 
+                                    rows="5" name="notiDetail" id="notiDetail"
+                                    placeholder="Nội dung thông báo"></textarea>
+                                </div>
+                            </div>
+                            <input type="hidden" name="userID" value="<%= user._id %>">
+                            <input type="hidden" id="notiIdUpdate" value="">
+                            <div class="form-group">
+                                <div class="col-sm-12 d-flex p-3 ">
+                                    <button type="submit" class="btn btn-update mx-auto mx-md-2 text-white m-2"
+                                    id="btn-noti-accpect">
+                                        Đăng thông báo
+                                    </button>
+                                    <a class="btn btn-update mx-auto mx-md-2 text-white m-2"
+                                    id="save-update-noti">
+                                        Lưu
+                                    </a>
+                                    <a  class="btn btn-cancel-noti mx-auto mx-md-2 text-white m-2"
+                                    id="btn-cancelNoti">
+                                        Hủy
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+        </div>
+        <div class="row">
+            <h5>Danh sách thông báo</h5>
+            <div class="noti-center">
+                <div class="noti-list noti-scroll">
+                    <% user.arrNoti.reverse().forEach(noti => { %>
+                        <div class="item" id="<%= noti._id %>">
+                            <span class="btndropdown"><img src="images/more.svg" class="post-option"></span>
+                            <a class="title" href="/detail?id=<%= noti._id %>"><%= noti.notiTitle %></a>
+                            <p>
+                                
+                            </p>
+                            <a href="/detail?id=<%= noti._id %>">Chi tiết thông báo</a>
+                            <p class="right-bottom">
+                               Ngày đăng: <%= noti.time.getDate()%> -  <%= noti.time.getMonth() + 1%> - <%= noti.time.getFullYear() %>
+                            </p>
+                            <div class="list-option">
+                                <ul>
+                                    <li class="update-noti" id="<%= noti._id %>">
+                                        <span><img class="" src="images/pen.svg"></span>
+                                        <a>Chỉnh sửa</a>
+                                    </li>
+                                    <li class="delete-noti" id="<%= noti._id %>">
+                                        <span><img class="" src="images/trash.svg"></span>
+                                        <a>Xóa</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    <% }) %> 
+                </div>
+            </div>
+        </div>
+            
+    </div>
+
+    <!--    MODAL -->
+    <div class="wrapper">
+        <!-- modal confirm delete-->
+        <div class="conform-delete">
+            <div class="modal-top">
+                <p class="modal-title">Thông báo</p>
+                <span><img src="images/close.svg" class="close"></span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="notiID">
+                <h2>Bạn có chắc chắn muốn xóa thông báo ?</h2>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn btn-update mx-auto mx-md-0 text-white"
+                id="btn-delete-noti">
+                    Đồng ý
+                </button>
+            </div>
+        </div>
+
+        <!-- modal success update-->
+        <div class="success-update">
+            <div class="modal-top">
+                <p class="modal-title">Thông báo</p>
+                
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="notiID">
+                <h2>Cập nhật thông báo thành công</h2>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn btn-update mx-auto mx-md-0 text-white"
+                id="btn-return-dashboard">
+                    Trở về
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>

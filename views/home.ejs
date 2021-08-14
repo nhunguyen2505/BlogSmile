@@ -1,0 +1,346 @@
+    <%- include("partials/header"); %>
+    <!--    HOME CONTAINER  -->
+    <div class="container home-page">
+        <div class="left-home">
+            <div class="status" id ="<%= user._id %>">
+                <div class="status-top">
+                    <img class="status-top-img" src="<%= user.img %> " alt="">
+                    <div class="status-top-text">
+                        <input type="text" id="status-input" placeholder="Bạn đang nghĩ gì?">
+                    </div>
+                </div>
+                <hr>
+                <div  class="status-bottom">
+                    <ul>
+                        <li>
+                            <!--Thêm mấy cái thẻ ở đây-->
+                            <span><img src="/images/live.svg"></span>
+                            <a class="stt">Video trực tiếp</a> 
+                        </li>
+                        <li>
+                            <span><img src="/images/picture.svg"></span>
+                            <a class="stt">Ảnh/Video</a>
+                        </li>
+                        <li class = "feeling">
+                            <span><img src="/images/smiling.svg"></span>
+                            <a class ="stt">Cảm xúc/Hoạt động</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <% posts.forEach( post => { %>
+                <div class="post" id="<%= post._id %>">
+                    <div class="post-top">
+                        <a href="/profile?query=<%= post.user._id %>"><img class="status-top-img" src="<%= post.user.img %> " alt=""></a>
+                        <a href="/profile?query=<%= post.user._id %>"class="post-name"><%= post.user.name %><br>20 giờ</a>
+                        <% if(user._id.toString() === post.user._id.toString()){ %>
+                            <span class="btndropdown" ><img src="images/more.svg" class="post-option"></span>
+                        <% } %> 
+                        <div class="list-option">
+                            <ul>
+                                <li class="update-post" id="<%= post._id %>">
+                                    <span><img class="" src="images/pen.svg"></span>
+                                    <a>Chỉnh sửa</a>
+                                </li>
+                                <li class="delete-post" id="<%= post._id %>">
+                                    <span><img class="" src="images/trash.svg"></span>
+                                    <a>Xóa</a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="post-mid">
+                        <div class="post-detail">
+                            <% post.data.forEach(d => { %>
+                                <% if (d.postType === "text") { %>
+                                    <p><%= d.postDetail %></p>
+                                <% }else if (d.postType === "img"){ %>
+                                    <img src="<%= d.postDetail %>" >
+                                <% }else{ %>
+                                    <iframe width="420" height="315"
+                                    src="https://www.youtube.com/embed/<%=d.postDetail%>">
+                                    </iframe>
+                                <% } %>
+                            <% }) %> 
+                        </div>
+                        <div class="count-like">
+                            <p><%= post.comments.length %> bình luận</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="post-bottom">
+                        <div class="like-comment">
+                            <ul>
+                                <li class="like">
+                                    <img src="images/like.svg">
+                                    <a>Thích</a>
+                                </li>
+                                <li class="show-comment">
+                                    <img src="images/message.svg">
+                                    <a >Bình luận</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <hr>
+                        <div class="list-comment">
+                            <% post.comments.forEach( comment => { %>
+                                <div class="comment" id="<%= comment._id %>">
+                                    <a href="/profile?query=<%= comment.userID %>"><img class="status-top-img" src="<%= comment.img %>"></a>
+                                    <div class="comment-detail">
+                                        <a href="/profile?query=<%= comment.userID %>"><p class="name"><%= comment.username %></p></a>
+                                        <p>
+                                            <%= comment.commentDetail %> 
+                                        </p>
+                                        
+                                    </div>
+                                    <% if (comment.userID == user._id) { %>
+                                        <a class="delete-comment"><span><img class="" src="images/trash.svg" width="24px"></span></a>
+                                    <% } %>
+                                </div>
+                            <% }) %> 
+                        <hr class="hr-addcomment">
+                        <div class="input-comment">
+                            <img class="status-top-img" src="<%= user.img %>">
+                            <input type="hidden" id="postID" value="<%= post._id %>">
+                            <input type="hidden" id="userID" value="<%=user._id %>">
+                            <% if (user.role > 0) { %>
+                                <input type="hidden" id="optionComment" value="teacher">
+                            <% } %>
+                            <div class="status-top-text">
+                                <input type="text" class="commentDetail"  placeholder="Nội dung bình luận">
+                                <a class="btn btn-comment" ><img src="images/send.svg" width="24px"></a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            <%}) %>
+
+            <hr id="post_more">
+        </div>
+        <div class="right-home">
+            
+            <div class="noti-table">
+                <div class="noti-title">
+                    <h5>THÔNG BÁO MỚI</h5>
+                    <a href="/notification">Xem tất cả</a>
+                </div>
+                <hr>
+                <div class="noti-list">
+                    <% notis.forEach(noti => { %>
+                        <div class="noti-item">
+                            <p>
+                                <%= noti.faculty.nameFaculty %>   -  
+                                <%= noti.time.getDate()%>/<%= noti.time.getMonth() + 1%>/<%= noti.time.getFullYear() %>
+                            </p>
+                            <a class="title" href="/detail?id=<%= noti._id %>"><%= noti.notiTitle %></a>
+                            <p>
+                                <a href="/detail?id=<%= noti._id %>">Xem chi tiết</a>
+                            </p>
+                        </div>
+                    <% }) %> 
+                    
+                </div>
+
+            </div>
+            
+            <div class="calender">
+                <div class="calender-month">
+                    Oct 2018
+                </div>
+                <table>
+                    <tr>
+                            <td>Mo</td>
+                            <td>Tu</td>
+                            <td>We</td>
+                            <td>Th</td>
+                            <td>Fr</td>
+                            <td>Sa</td>
+                            <td>Su</td>
+                    </tr>
+                        <tr>
+                            <td></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                            <td>5</td>
+                            <td>6</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                            <td>12</td>
+                            <td>13</td>
+                        </tr>
+                        <tr>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                            <td>19</td>
+                            <td>20</td>
+                        </tr>
+                        <tr>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                            <td>26</td>
+                            <td>27</td>
+                        </tr>
+                        <tr>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td>31</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                
+            </div>
+        </div>
+        
+
+        
+    </div>
+    <!--    MODAL -->
+    <div class="wrapper">   
+        <div class="container-modal">
+            <form method="POST" action="create_post" class="form-createpost" 
+            enctype="multipart/form-data" id="form-createpost">
+                <div class="modal-top">
+                    <p class="modal-title">Tạo bài viết</p>
+                    <span><img src="images/close.svg" class="close"></span>
+                </div>
+                <div class="modal-mid">
+                    <img class="status-top-img" src="<%= user.img %> " alt="">
+                    <span><%= user.name %> </span><br>
+                    <div class="form-group">
+                        <label class="col-md-12 mb-0">Nội dung</label>
+                        <div class="form-group">
+                            <textarea class="form-control ps-0 form-control-line detail inputDetail" 
+                            rows="2" name="postDetail" id="input_text"
+                            placeholder="Bạn đang nghĩ gì?"></textarea>
+                        </div>
+                        <div id="preview-upload-pic">
+                        </div>
+
+                        <input type="hidden" id="type-upload"/>
+                        <input type="hidden" id="data-upload"/>
+                    
+                    </div>
+                </div>
+                <div class="modal-bottom">
+                    <div class="option">
+                        <ul>
+                            <input id="upload" type="file" accept='image/*' name='uploadedImages' multiple/>
+                            <li id="upload_img">
+                                <span><img src="/images/picture.svg"></span>
+                                <a>Ảnh/Video</a>
+                            </li>
+                            <li >
+                                <span><img src="/images/folder.svg"></span>
+                                <a>File</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-post" id="btn-createpost" >Đăng bài</a>
+                </div>
+            </form>
+        </div>
+        <!-- modal confirm delete-->
+        <div class="conform-delete">
+            <div class="modal-top">
+                <p class="modal-title">Thông báo</p>
+                <span><img src="images/close.svg" class="close"></span>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="postID">
+                <h2>Bạn có chắc chắn muốn xóa ?</h2>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn btn-update mx-auto mx-md-0 text-white"
+                id="btn-accpect">
+                    Đồng ý
+                </button>
+            </div>
+        </div>
+        <!-- modal edit -->
+        <div class="edit-modal">
+            <form method="POST" action="update_post" class="form-createpost" 
+            enctype="multipart/form-data" id="form-updatepost">
+                <div class="modal-top">
+                    <p class="modal-title">Chỉnh sửa</p>
+                    <span><img src="images/close.svg" class="close"></span>
+                </div>
+                <div class="modal-mid">
+                    <img class="status-top-img" src="<%= user.img %> " alt="">
+                    <span><%= user.name %> </span><br>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <textarea class="form-control ps-0 form-control-line detail inputDetail" 
+                            rows="2" name="postDetail" id="input_post"
+                            placeholder="Bạn đang nghĩ gì?"></textarea>
+                        </div>
+                        <div id="preview-update"></div>
+
+                        <input type="hidden" id="type-upload-update"/>
+                        <input type="hidden" id="data-upload-update"/>
+                        <input type="hidden" id="postId-update"/>
+                        <input type="hidden" id="oldImg"/>
+                    </div>
+                </div>
+                <div class="modal-bottom">
+                    <div class="option">
+                        <ul>
+                            <input id="update_file" type="file" accept='image/*' name='uploadedImages' multiple/>
+                            <li id="update_img">
+                                <span><img src="/images/picture.svg"></span>
+                                <a>Ảnh/Video</a>
+                            </li>
+                            <li >
+                                <span><img src="/images/folder.svg"></span>
+                                <a>File</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-save" id="btn-updatepost" >Lưu</a>
+                </div>
+            </form>
+        </div>
+        <!-- modal error-->
+        <div class="modal-error">
+            <div class="modal-top">
+                <p class="modal-title">Thông báo</p>
+                <span><img src="images/close.svg"   class="close"  id="close-return" ></span>
+            </div>
+            <div class="modal-body">
+                <h4>Bài viết không tồn tại hoặc đã có lỗi xảy ra</h4>
+            </div>
+            <div class="modal-bottom">
+                <button class="btn btn-update mx-auto mx-md-0 text-white"
+                id="btn-return">
+                    Trở về
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="javascripts/main.js"></script>
+</body>
+</html>
