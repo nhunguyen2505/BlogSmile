@@ -1,4 +1,4 @@
-﻿# tdt-portal-node-js
+﻿# Read me BlogSmile
  
 Step up the resource:
 1. Please recheck to your computer already node-module and npm or not. Open command line and type:
